@@ -47,23 +47,24 @@ def text_to_tensor(text):
     numericalized = vocab(tokens)  # Convert tokens to numbers
     return torch.tensor(numericalized, dtype=torch.long)  # Convert to tensor
 
-# 5. Test the model with a sample sentence
-sample_text = "This movie is amazing and I loved it!"
+# Example input text (can be changed)
+sample_text = "this file is very horrible!"
+
+# Convert the text to tensor (you need your text preprocessing here)
 text_tensor = text_to_tensor(sample_text)
-text_tensor = text_tensor.unsqueeze(0)  # Add batch dimension
+text_tensor = text_tensor.unsqueeze(0)  # Add batch dimension if needed
 
+# Model evaluation (run the model to get the prediction)
 model.eval()  # Put model in evaluation mode
-with torch.no_grad():
-    prediction = model(text_tensor)
+with torch.no_grad():  # Don't track gradients during inference
+    logit_output = model(text_tensor)
 
-# Apply sigmoid to convert logits to probability
-probability = torch.sigmoid(prediction)
+# Apply sigmoid activation to get the probability
+probability = torch.sigmoid(logit_output).item()
 
-# Print the probability
-print(f"Probability: {probability.item()}")
+# Prediction logic based on probability
+sentiment = "Positive" if probability > 0.5 else "Negative"
 
-# Determine sentiment
-if probability.item() > 0.5:
-    print("Predicted Sentiment: Positive")
-else:
-    print("Predicted Sentiment: Negative")
+# Output the result
+print(f"Probability: {probability:.4f}")
+print(f"Predicted Sentiment: {sentiment}")
