@@ -48,7 +48,7 @@ def text_to_tensor(text):
     return torch.tensor(numericalized, dtype=torch.long)  # Convert to tensor
 
 # Example input text (can be changed)
-sample_text = "this file is very horrible!"
+sample_text = "this is a lovely movie!"
 
 # Convert the text to tensor (you need your text preprocessing here)
 text_tensor = text_to_tensor(sample_text)
